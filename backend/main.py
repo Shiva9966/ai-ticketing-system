@@ -14,14 +14,17 @@ from seed_data import seed
 
 app = FastAPI(title="AI Ticketing System")
 
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000", "ai-ticketing-system-ten.vercel.app"],
+    allow_origins=[
+        "http://localhost:5173",
+        "https://ai-ticketing-system-ten.vercel.app"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 # ── Pydantic schemas ──────────────────────────────────────────────────────────
 
 class TicketCreate(BaseModel):
