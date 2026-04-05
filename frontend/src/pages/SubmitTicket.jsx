@@ -31,9 +31,9 @@ export default function SubmitTicket() {
 
   if (result) {
     return (
-      <div className="max-w-2xl mx-auto px-6 py-8">
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
         <div className="flex items-center gap-3 mb-6 p-4 bg-green-50 border border-green-100 rounded-xl">
-          <CheckCircle2 className="text-green-600" size={20} />
+          <CheckCircle2 className="text-green-600 flex-shrink-0" size={20} />
           <div>
             <p className="font-medium text-green-800">Ticket #{result.id} submitted!</p>
             <p className="text-sm text-green-600">AI has analyzed and processed your ticket</p>
@@ -46,7 +46,7 @@ export default function SubmitTicket() {
             <p className="font-semibold text-gray-900">AI Analysis</p>
           </div>
 
-          <div className="flex gap-2 mb-3">
+          <div className="flex flex-wrap gap-2 mb-3">
             <CategoryBadge category={result.category} />
             <SeverityBadge severity={result.severity} />
             <span className="badge bg-gray-100 text-gray-600">{result.sentiment}</span>
@@ -69,7 +69,7 @@ export default function SubmitTicket() {
           )}
         </div>
 
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
           <button className="btn-primary" onClick={() => navigate(`/tickets/${result.id}`)}>
             View Ticket
           </button>
@@ -82,19 +82,19 @@ export default function SubmitTicket() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-6 py-8">
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8">
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Submit a Ticket</h1>
         <p className="text-sm text-gray-500 mt-1">AI will analyze and route your ticket automatically.</p>
       </div>
 
       <div className="flex items-center gap-2 mb-5 p-3 bg-purple-50 border border-purple-100 rounded-lg">
-        <Brain size={15} className="text-purple-600" />
+        <Brain size={15} className="text-purple-600 flex-shrink-0" />
         <p className="text-sm text-purple-700">AI will classify severity, sentiment, and route to the right team.</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="card p-6 space-y-4">
-        <div className="grid grid-cols-2 gap-4">
+      <form onSubmit={handleSubmit} className="card p-4 sm:p-6 space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="label">Your name</label>
             <input className="input" placeholder="Ravi Kumar" required

@@ -66,45 +66,76 @@ export default function TicketList() {
         )}
       </div>
 
-      {/* Table */}
       {loading ? (
-        <div className="flex justify-center py-20"><Spinner size="lg" /></div>
-      ) : tickets.length === 0 ? (
-        <EmptyState icon="🎫" title="No tickets found" description="Try adjusting filters or submit a new ticket." />
-      ) : (
-        <div className="card overflow-hidden">
-          <table className="w-full text-sm">
-            <thead className="bg-gray-50 border-b border-gray-200">
-              <tr>
-                {['ID', 'Title', 'Submitter', 'Category', 'Severity', 'Status', 'Department', 'Created'].map(h => (
-                  <th key={h} className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {tickets.map(t => (
-                <tr key={t.id} onClick={() => navigate(`/tickets/${t.id}`)}
-                  className="hover:bg-gray-50 cursor-pointer transition-colors">
-                  <td className="px-4 py-3 text-xs text-gray-400 font-mono">#{t.id}</td>
-                  <td className="px-4 py-3 max-w-xs">
-                    <div className="flex items-center gap-2">
-                      {t.is_escalated && <AlertTriangle size={13} className="text-red-500" />}
-                      <span className="font-medium text-gray-900 truncate">{t.title}</span>
-                    </div>
-                    {t.ai_summary && <p className="text-xs text-gray-400 truncate mt-0.5">{t.ai_summary}</p>}
-                  </td>
-                  <td className="px-4 py-3 text-gray-600">{t.submitter_name}</td>
-                  <td className="px-4 py-3"><CategoryBadge category={t.category} /></td>
-                  <td className="px-4 py-3"><SeverityBadge severity={t.severity} /></td>
-                  <td className="px-4 py-3"><StatusBadge status={t.status} /></td>
-                  <td className="px-4 py-3 text-gray-500 text-xs">{t.assigned_department || '—'}</td>
-                  <td className="px-4 py-3 text-gray-400 text-xs">{formatDate(t.created_at)}</td>
-                </tr>
+  <div className="flex justify-center py-20"><Spinner size="lg" /></div>
+) : tickets.length === 0 ? (
+  <EmptyState icon="🎫" title="No tickets found" description="Try adjusting filters or submit a new ticket." />
+) : (
+  <>
+    {/* Desktop table */}
+    <div className="card overflow-hidden hidden md:block">
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead className="bg-gray-50 border-b border-gray-200">
+            <tr>
+              {['ID', 'Title', 'Submitter', 'Category', 'Severity', 'Status', 'Department', 'Created'].map(h => (
+                <th key={h} className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">{h}</th>
               ))}
-            </tbody>
-          </table>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
+            {tickets.map(t => (
+              <tr key={t.id} onClick={() => navigate(`/tickets/${t.id}`)}
+                className="hover:bg-gray-50 cursor-pointer transition-colors">
+                <td className="px-4 py-3 text-xs text-gray-400 font-mono">#{t.id}</td>
+                <td className="px-4 py-3 max-w-xs">
+                  <div className="flex items-center gap-2">
+                    {t.is_escalated && <AlertTriangle size={13} className="text-red-500" />}
+                    <span className="font-medium text-gray-900 truncate">{t.title}</span>
+                  </div>
+                  {t.ai_summary && <p className="text-xs text-gray-400 truncate mt-0.5">{t.ai_summary}</p>}
+                </td>
+                <td className="px-4 py-3 text-gray-600">{t.submitter_name}</td>
+                <td className="px-4 py-3"><CategoryBadge category={t.category} /></td>
+                <td className="px-4 py-3"><SeverityBadge severity={t.severity} /></td>
+                <td className="px-4 py-3"><StatusBadge status={t.status} /></td>
+                <td className="px-4 py-3 text-gray-500 text-xs">{t.assigned_department || '—'}</td>
+                <td className="px-4 py-3 text-gray-400 text-xs">{formatDate(t.created_at)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    {/* Mobile cards */}
+    <div className="md:hidden space-y-3">
+      {tickets.map(t => (
+        <div key={t.id} onClick={() => navigate(`/tickets/${t.id}`)}
+          className="card p-4 cursor-pointer active:bg-gray-50">
+          <div className="flex items-start justify-between mb-2">
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2">
+                {t.is_escalated && <AlertTriangle size={13} className="text-red-500 flex-shrink-0" />}
+                <p className="font-medium text-gray-900 truncate text-sm">{t.title}</p>
+              </div>
+              <p className="text-xs text-gray-400 mt-0.5">{t.submitter_name} · {formatDate(t.created_at)}</p>
+            </div>
+            <span className="text-xs text-gray-400 font-mono ml-2">#{t.id}</span>
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            <CategoryBadge category={t.category} />
+            <SeverityBadge severity={t.severity} />
+            <StatusBadge status={t.status} />
+            {t.assigned_department && (
+              <span className="badge bg-gray-100 text-gray-600">{t.assigned_department}</span>
+            )}
+          </div>
         </div>
-      )}
+      ))}
+    </div>
+  </>
+)}
     </div>
   )
 }

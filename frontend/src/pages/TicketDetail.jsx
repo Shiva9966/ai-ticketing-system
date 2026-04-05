@@ -99,9 +99,9 @@ export default function TicketDetail() {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left */}
-        <div className="col-span-2 space-y-5">
+        <div className="lg:col-span-2 space-y-5">
           {/* Description */}
           <div className="card p-5">
             <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Description</p>

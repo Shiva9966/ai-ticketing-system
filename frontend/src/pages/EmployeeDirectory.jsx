@@ -26,13 +26,13 @@ function Modal({ initial, onSave, onClose }) {
 
   return (
     <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-md">
-        <div className="flex items-center justify-between px-5 py-4 border-b">
+      <div className="bg-white rounded-xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+        <div className="flex items-center justify-between px-5 py-4 border-b sticky top-0 bg-white">
           <h2 className="font-semibold text-gray-900">{initial.id ? 'Edit Employee' : 'Add Employee'}</h2>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600"><X size={18} /></button>
         </div>
         <div className="p-5 space-y-3">
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="label">Name</label>
               <input className="input" value={form.name} onChange={set('name')} />
@@ -42,7 +42,7 @@ function Modal({ initial, onSave, onClose }) {
               <input className="input" type="email" value={form.email} onChange={set('email')} />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="label">Department</label>
               <select className="input" value={form.department} onChange={set('department')}>
@@ -81,7 +81,7 @@ function Modal({ initial, onSave, onClose }) {
             </div>
           </div>
         </div>
-        <div className="flex justify-end gap-2 px-5 py-4 border-t">
+        <div className="flex justify-end gap-2 px-5 py-4 border-t sticky bottom-0 bg-white">
           <button className="btn-secondary" onClick={onClose}>Cancel</button>
           <button className="btn-primary" onClick={handleSave} disabled={saving}>
             {saving ? 'Saving...' : 'Save'}
@@ -128,7 +128,7 @@ export default function EmployeeDirectory() {
   const filtered = deptFilter ? employees.filter(e => e.department === deptFilter) : employees
 
   return (
-    <div className="px-6 py-8">
+    <div className="px-4 sm:px-6 py-8">
       {modal && <Modal initial={modal === 'add' ? EMPTY : modal} onSave={handleSave} onClose={() => setModal(null)} />}
 
       <div className="flex items-center justify-between mb-6">
@@ -137,14 +137,21 @@ export default function EmployeeDirectory() {
           <p className="text-sm text-gray-500 mt-0.5">{employees.length} active employees</p>
         </div>
         <button className="btn-primary" onClick={() => setModal('add')}>
-          <Plus size={15} /> Add Employee
+          <Plus size={15} />
+          <span className="hidden sm:inline">Add Employee</span>
+          <span className="sm:hidden">Add</span>
         </button>
       </div>
 
-      <div className="flex gap-2 mb-5 flex-wrap">
+      {/* Dept filter - scrollable on mobile */}
+      <div className="flex gap-2 mb-5 overflow-x-auto pb-1 scrollbar-hide">
         {['', ...DEPARTMENTS].map(d => (
           <button key={d} onClick={() => setDeptFilter(d)}
-            className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${deptFilter === d ? 'bg-brand-600 text-white' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'}`}>
+            className={`px-3 py-1.5 rounded-lg text-sm transition-colors whitespace-nowrap flex-shrink-0 ${
+              deptFilter === d
+                ? 'bg-brand-600 text-white'
+                : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'
+            }`}>
             {d || 'All'}
           </button>
         ))}
@@ -155,20 +162,20 @@ export default function EmployeeDirectory() {
       ) : filtered.length === 0 ? (
         <EmptyState icon="👥" title="No employees found" description="Add your first employee." />
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map(emp => (
             <div key={emp.id} className="card p-4">
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-brand-100 flex items-center justify-center text-brand-700 font-semibold">
+                  <div className="w-10 h-10 rounded-full bg-brand-100 flex items-center justify-center text-brand-700 font-semibold flex-shrink-0">
                     {emp.name[0]}
                   </div>
-                  <div>
-                    <p className="font-medium text-gray-900 text-sm">{emp.name}</p>
-                    <p className="text-xs text-gray-500">{emp.designation}</p>
+                  <div className="min-w-0">
+                    <p className="font-medium text-gray-900 text-sm truncate">{emp.name}</p>
+                    <p className="text-xs text-gray-500 truncate">{emp.designation}</p>
                   </div>
                 </div>
-                <div className="flex gap-1">
+                <div className="flex gap-1 flex-shrink-0">
                   <button onClick={() => setModal(emp)} className="p-1.5 rounded hover:bg-gray-100 text-gray-400">
                     <Pencil size={13} />
                   </button>

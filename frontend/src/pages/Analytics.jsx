@@ -22,14 +22,14 @@ export default function Analytics() {
   const deptLoadData = Object.entries(data.department_load).map(([dept, count]) => ({ dept, count }))
 
   return (
-    <div className="px-6 py-8">
+    <div className="px-4 sm:px-6 py-8">
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Analytics</h1>
         <p className="text-sm text-gray-500 mt-0.5">Live overview of your helpdesk</p>
       </div>
 
       {/* KPIs */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mb-8">
         <StatCard label="Total Tickets" value={data.total_tickets} color="blue" />
         <StatCard label="Open" value={data.open_tickets} color="orange" />
         <StatCard label="Resolved" value={data.resolved_tickets} color="green" />
@@ -38,7 +38,7 @@ export default function Analytics() {
       </div>
 
       {/* Charts row 1 */}
-      <div className="grid grid-cols-2 gap-6 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div className="card p-5">
           <h2 className="text-sm font-semibold text-gray-700 mb-4">Tickets by Status</h2>
           {statusData.length ? (
@@ -76,7 +76,7 @@ export default function Analytics() {
       </div>
 
       {/* Charts row 2 */}
-      <div className="grid grid-cols-2 gap-6 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div className="card p-5">
           <h2 className="text-sm font-semibold text-gray-700 mb-4">Department Load</h2>
           {deptLoadData.length ? (
