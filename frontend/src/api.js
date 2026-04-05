@@ -1,6 +1,8 @@
 import axios from 'axios'
 
-const api = axios.create({ baseURL: '/api' })
+const api = axios.create({ 
+  baseURL: 'https://ai-ticketing-system-d9bk.onrender.com'
+})
 
 export const createTicket = (data) => api.post('/tickets/', data)
 export const listTickets = (params) => api.get('/tickets/', { params })
